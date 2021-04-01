@@ -1,49 +1,39 @@
-package testscripts.regression;
+package pages;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
-public class ValidateLoginUsingProperties {
+public class BasePage {
 	
 	
-	WebDriver driver;
-	FileInputStream fis2;
-	Properties pr2;
+	public static WebDriver driver;
+	FileInputStream fis1;
+	Properties pr1;
 	
-	@AfterMethod
-	public void tearDown()
-	{
-		
-		driver.quit();
-	}
-	
-	@BeforeMethod
+	@BeforeClass
 	public void setUp() throws IOException
 	{
 		
-		FileInputStream fis1=new FileInputStream("Properties\\config.properties");
+		fis1=new FileInputStream("Properties\\config.properties");
 		
-		Properties pr1=new Properties();
+		pr1=new Properties();
 		
 		pr1.load(fis1);
 		
-		 fis2=new FileInputStream("Properties\\locators.properties");
-		
-		 pr2=new Properties();
-		
-		pr2.load(fis2);
-		
+	}
+	
+	@BeforeMethod
+	public void startTest()
+	{
 		
 		String browserForExecution=pr1.getProperty("browser");
 		
@@ -86,31 +76,16 @@ public class ValidateLoginUsingProperties {
 		driver.manage().timeouts().implicitlyWait(Integer.parseInt(pr1.getProperty("timeToload")), TimeUnit.SECONDS);
 		
 		
-	}
-	
-	
-	@Test
-	public void loginTest() throws InterruptedException
-	{
-		
-		
-		driver.findElement(By.xpath(pr2.getProperty("txt_username"))).sendKeys("reyaz009");
-		driver.findElement(By.xpath(pr2.getProperty("txt_password"))).sendKeys("reyaz123");
-		driver.findElement(By.xpath(pr2.getProperty("btn_login"))).click();
-		
-		Assert.assertEquals(driver.getTitle(), "Adactin.com - Search Hotel");
 		
 	}
-	
-	
 	
 	@AfterMethod
-	public void teardown()
+	public void tearDown()
 	{
+		
 		
 		driver.quit();
 	}
-	
 	
 
 }
