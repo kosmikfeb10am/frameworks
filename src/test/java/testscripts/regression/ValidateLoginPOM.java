@@ -21,7 +21,8 @@ public class ValidateLoginPOM extends BasePage {
 	{
 		
 		
-		LoginPage loginPage=PageFactory.initElements(driver, LoginPage.class);
+		LoginPage loginPage=new LoginPage(driver);
+		
 		
 		loginPage.username(un);
 		
